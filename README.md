@@ -59,6 +59,7 @@ You will be running your tests in one terminal and debugging in the other. As yo
 Edit the `ReadMe` file with your answers to the questions below.
 
 1. In your own words, define closure (1-2 sentences).
+Being able to put function together, and grab outer function variablesd within the inner function.
 2. Study the following code, then answer the questions below.
 
 ```js
@@ -80,9 +81,11 @@ dansRoll();
 ```
 
 a. Where is closure used in this code? How can you tell?
+Closure is used with the inner function, as it calls name from its outer function. As the personalDice is later placed as a new function, it recieves an argument, which is the same as when it is used in the inner function.
 b. Compare and contrast calling `dansRoll` the first and second time. What is always the same? What could change?
+the name and string but not the numbers
 c. What is the lexical scope of `newRoll`? 
-
+only the inner function in which its being called
 
 ### Task 3 - Stretch Goals
 

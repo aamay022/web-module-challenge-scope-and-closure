@@ -1,5 +1,7 @@
 // ⭐️ Example Challenge START ⭐️
 
+const { assertNode } = require("@babel/types");
+
 /**Example Task : processFirstItem()
  * This example shows how you might go about solving the rest of the tasks
  * 
@@ -16,6 +18,9 @@
 function processFirstItem(stringList, callback) {
   return callback(stringList[0])
 }
+function double(str){
+  return str+str
+}
 console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
 
 // ⭐️ Example Challenge END ⭐️
@@ -28,11 +33,16 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+  counter1 is a new function which is set to be a built in memory for counterMaker that returns the counter function that graps the count variable within the outer function scope to give it an increment.
+
+  counter2 on the other hand simply returns the count incremented but has no memory of it.
   2. Which of the two uses a closure? How can you tell?
-  
+  counter1 does when the inner function 'counter' grabs the count variable, from 1 level up.
+
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+     counter1 would be better to store and save memory of occurences that it is called.
+     counter2 when you want that method to only be ran once with no memory stored.
 */
 
 // counter1 code
@@ -63,7 +73,7 @@ NOTE: This will be a callback function for the tasks below
 */
 
 function inning(/*Code Here*/){
-    /*Code Here*/
+    return Math.floor(Math.random()*3)
 }
 
 
@@ -81,19 +91,32 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
-}
+function finalScore(inningcb,numOfInnings){
+  let scoreH=0;
+  let scoreA=0;
+  for(let i=0; i<numOfInnings; i++){
+    scoreH+=inningcb()
+    scoreA+=inningcb()
+    }
+    return {
+      Home: scoreA,
+      Away: scoreH
+    }
+  }
 
+console.log(finalScore(inning, 9))
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(inningcb) {
+  return {
+    Home: inningcb(),
+    Away: inningcb()
+  }
 }
-
+console.log(getInningScore(inning))
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
 Use the scoreboard function below to do the following:
@@ -136,11 +159,28 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(inningcb, getInningScorecb,numOfInnings) {
+  const board = [];
+  let awayScore = 0;
+  let homeScore = 0;
+  for (let i=0; i<numOfInnings; i++){
+    
+    const currentScore = getInningScore(inningcb);
+    board.push(`Inning ${i+1}: Away ${currentScore.Home} - Home ${currentScore.Home}`)
+    
+    homeScore += currentScore.Home
+    awayScore += currentScore.Away
+    
+    if ([i]==numOfInnings-1 && homeScore === awayScore){
+    board.push(`This game will require extra innings: Away ${homeScore} - Home ${awayScore}`)
+    }else if([i]==numOfInnings-1){
+      board.push(`Final Score: Away ${homeScore} - Home ${awayScore}`)
+    }
+  }
+  return board
 }
 
-
+console.log(scoreboard(inning, getInningScore, 9))
 
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
